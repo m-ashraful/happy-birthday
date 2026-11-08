@@ -581,8 +581,10 @@ if (PREVIEW) {
   };
 } else {
   // লাইভ সাইটে: content.enc.json (তালাবদ্ধ) থাকলে সেটা, না থাকলে নমুনা content.json
+  // <meta name="data-base"> থাকলে লেখা আসে অন্য ঠিকানা থেকে (dear-tania.github.io → m-ashraful.github.io/happy-birthday)
+  const DATA = (document.querySelector('meta[name="data-base"]') || {}).content || '';
   (async () => {
-    const box = await fetch('content.enc.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null);
+    const box = await fetch(DATA + 'content.enc.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null);
     if (box && box.open) return start(box.content);
     if (box && box.locks) {
       BOX = box; const m = box.meta || {};
