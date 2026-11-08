@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>জন্মদিনের পাতা: সম্পাদনা</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Galada&family=Hind+Siliguri:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#1a0b05;--panel:#24110a;--card:#2e160c;--line:rgba(255,215,190,.14);--text:#fff6f0;--mute:rgba(255,234,220,.62);--rose:#f26b21;--gold:#f2c879;--ok:#7fd6a0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Hind Siliguri',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;display:flex;flex-direction:column;overflow:hidden}
+button,input,textarea,select{font:inherit;color:inherit}
+.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line);background:#200d05}
+.brand{font-family:'Galada',cursive;font-size:22px;color:#ffc59a;margin-right:auto}
+.saved{font-size:13px;color:var(--ok)}
+.saved.busy{color:var(--gold)}
+.b{padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.05);cursor:pointer;font-size:14px;white-space:nowrap}
+.b:hover{background:rgba(255,255,255,.1)}
+.b.pri{background:linear-gradient(135deg,#ff8a3d,#e0561a);border:0;color:#fff;font-weight:600}
+.b.sm{padding:5px 10px;font-size:13px;border-radius:8px}
+.b.ic{width:32px;height:32px;padding:0;display:grid;place-items:center}
+.b.danger:hover{background:rgba(242,107,33,.25)}
+.main{flex:1;display:flex;min-height:0}
+.panel{width:470px;flex:none;overflow-y:auto;padding:14px 14px 90px;border-right:1px solid var(--line);background:var(--panel)}
+.pv{flex:1;display:flex;align-items:center;justify-content:center;min-width:0;position:relative;background:radial-gradient(circle at 50% 30%,#3a1a0a,#140803)}
+.phone{width:390px;height:844px;border-radius:44px;border:10px solid #0c0307;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.08);overflow:hidden;transform-origin:center;flex:none;background:#140602}
+.phone iframe{width:100%;height:100%;border:0;display:block}
+.pv-note{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-size:13px;color:var(--mute)}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+summary{list-style:none;cursor:pointer;padding:13px 16px;display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px}
+summary::-webkit-details-marker{display:none}
+summary .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(242,107,33,.2);color:#ffbe8f;font-size:13px;flex:none}
+summary .ar{color:var(--mute);transition:.3s}
+details[open] summary .ar{transform:rotate(90deg)}
+summary .st{flex:1;min-width:0}
+summary .ar{margin-left:4px}
+.eye{display:inline-flex;align-items:center;gap:5px;padding:4px 11px 4px 9px;border-radius:999px;font-size:12.5px;font-weight:600;cursor:pointer;
+  color:#9be8b6;background:rgba(127,214,160,.12);border:1px solid rgba(127,214,160,.35);white-space:nowrap}
+.eye.off{color:#ffcf8a;background:rgba(242,200,121,.1);border:1px dashed rgba(242,200,121,.5)}
+details.sec-off summary .st,details.sec-off summary .n{opacity:.45;text-decoration:line-through;text-decoration-thickness:1px}
+details.sec-off{border-style:dashed}
+.item.off{opacity:.55;border-style:dashed}
+.item.off .eye-i,.eye-i.off{opacity:1;color:#ffcf8a;border-color:rgba(242,200,121,.5)}
+details[open] summary{border-bottom:1px solid var(--line)}
+.body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:12px}
+.f label{display:block;font-size:13.5px;color:var(--mute);margin-bottom:5px}
+.f input[type=text],.f input[type=date],.f input[type=datetime-local],.f input[type=number],.f textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.25);outline:none;line-height:1.6}
+.f textarea{resize:vertical;min-height:70px}
+.f input:focus,.f textarea:focus{border-color:var(--gold)}
+input[type=date]::-webkit-calendar-picker-indicator,input[type=datetime-local]::-webkit-calendar-picker-indicator{filter:invert(1)}
+.chk{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:14.5px;line-height:1.5}
+.chk input{width:18px;height:18px;margin-top:3px;accent-color:var(--rose)}
+.note{font-size:13px;color:var(--mute);line-height:1.6;background:rgba(242,200,121,.07);border:1px solid rgba(242,200,121,.18);padding:8px 12px;border-radius:10px}
+.list{display:flex;flex-direction:column;gap:10px}
+.item{display:flex;gap:10px;padding:10px;border-radius:12px;background:rgba(0,0,0,.2);border:1px solid var(--line)}
+.item .grow{flex:1;display:flex;flex-direction:column;gap:8px;min-width:0}
+.item textarea,.item input[type=text]{width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.25);outline:none;line-height:1.55;resize:vertical}
+.item textarea{min-height:52px}
+.item .ctl{display:flex;flex-direction:column;gap:4px}
+.thumb{width:84px;height:105px;flex:none;border-radius:8px;border:1px dashed rgba(255,200,215,.35);background:rgba(255,255,255,.04) center/cover no-repeat;cursor:pointer;display:grid;place-items:center;text-align:center;font-size:12px;color:var(--mute);padding:4px;position:relative}
+.thumb.has{border-style:solid;color:transparent}
+.thumb:hover::after{content:'বদলাও';position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.45);color:#fff;border-radius:8px}
+.add{border-style:dashed;text-align:center;padding:10px}
+.size{font-size:12.5px;color:var(--mute)}
+.mtabs{display:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(80px);background:#3a1d0c;border:1px solid var(--line);padding:10px 18px;border-radius:12px;transition:.4s;z-index:50;font-size:14px}
+.toast.show{transform:translateX(-50%)}
+dialog{border:1px solid var(--line);border-radius:18px;background:#2a1309;color:var(--text);padding:0;max-width:min(94vw,520px)}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+.dlg{padding:22px 22px 18px;display:flex;flex-direction:column;gap:12px;line-height:1.7}
+.dlg h3{font-size:18px}
+.dlg ol{padding-left:22px;font-size:14px;color:var(--mute)}
+.dlg ol b{color:var(--text)}
+.dlg input{padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.3);outline:none;font-family:monospace}
+.dlg-msg{font-size:13px;color:#ffcf8a;min-height:1em}
+.dlg-row{display:flex;gap:10px;justify-content:flex-end}
+.b[disabled]{opacity:.6;pointer-events:none}
+@media (max-width:900px){
+  .panel{width:100%;border-right:0}
+  .pv{display:none}
+  body.show-pv .panel{display:none}
+  body.show-pv .pv{display:flex}
+  .mtabs{display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:30;background:#2a1309;border:1px solid var(--line);border-radius:14px;padding:4px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  .mtabs button{flex:1;padding:10px;border:0;border-radius:10px;background:none;font-weight:600}
+  .mtabs button.on{background:var(--rose);color:#fff}
+  .top .b:not(.pri){padding:7px 10px;font-size:13px}
+  .pv-note{bottom:76px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">🧡 জন্মদিনের পাতা</div>
+  <span class="saved" id="saved">সংরক্ষিত</span>
+  <button class="b pri" id="pub" type="button">🚀 লাইভ করো</button>
+  <button class="b" id="full" type="button">পুরো পর্দায় দেখো ↗</button>
+  <button class="b" id="live" type="button">লাইভ থেকে আনো</button>
+  <button class="b" id="exp" type="button">ফাইল নামাও</button>
+  <label class="b">ফাইল খোলো<input type="file" id="imp" accept=".json,application/json" hidden></label>
+  <button class="b danger" id="reset" type="button">নমুনায় ফেরো</button>
+</header>
+<div class="main">
+  <form class="panel" id="form" onsubmit="return false"></form>
+  <div class="pv" id="pv">
+    <div class="phone" id="phone"><iframe id="frame" src="index.html?preview=1" title="দেখতে কেমন"></iframe></div>
+  </div>
+</div>
+<nav class="mtabs"><button type="button" class="on" data-t="ed">✏️ সম্পাদনা</button><button type="button" data-t="pv">📱 দেখো</button></nav>
+<div class="toast" id="toast"></div>
+<dialog id="tokDlg">
+  <form method="dialog" class="dlg">
+    <h3>এক বারের কাজ: গিটহাবের চাবি</h3>
+    <p>এই পাতা থেকে লাইভ করতে গিটহাবের একটা চাবি (টোকেন) লাগবে। চাবিটা শুধু এই ব্রাউজারেই থাকবে, অন্য কোথাও যাবে না।</p>
+    <ol>
+      <li>নিচের বোতামে চাপ দিন, গিটহাবের পাতা খুলবে (m-ashraful হিসেবে লগইন থাকতে হবে)।</li>
+      <li><b>Token name</b>-এ যেকোনো নাম দিন, <b>Expiration</b>-এ পছন্দমতো সময় (যেমন ৯০ দিন)।</li>
+      <li><b>Repository access</b> → <b>Only select repositories</b> → <b>happy-birthday</b> বাছুন।</li>
+      <li><b>Permissions</b> → <b>Contents</b> → <b>Read and write</b> করুন।</li>
+      <li>নিচে <b>Generate token</b> চাপুন। যে লেখাটা আসবে (github_pat_ দিয়ে শুরু), কপি করে এখানে বসান।</li>
+    </ol>
+    <a class="b" id="tokLink" target="_blank" rel="noopener" href="https://github.com/settings/personal-access-tokens/new?name=happy-birthday-editor&amp;description=%E0%A6%9C%E0%A6%A8%E0%A7%8D%E0%A6%AE%E0%A6%A6%E0%A6%BF%E0%A6%A8%E0%A7%87%E0%A6%B0%20%E0%A6%AA%E0%A6%BE%E0%A6%A4%E0%A6%BE&amp;expires_in=90&amp;contents=write">গিটহাবে চাবি বানাও ↗</a>
+    <input id="tokIn" type="password" placeholder="github_pat_…" autocomplete="off">
+    <p class="dlg-msg" id="tokMsg"></p>
+    <div class="dlg-row"><button class="b" value="cancel">বাতিল</button><button class="b pri" id="tokSave" value="default">রেখে দাও ও লাইভ করো</button></div>
+  </form>
+</dialog>
+<script src="crypt.js"></script>
+<script src="edit.js"></script>
+</body>
+</html>
