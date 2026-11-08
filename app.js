@@ -194,14 +194,15 @@ const NEXT = { stars: 'চলো', envelope: 'চলো, এগোই', garden: 
 const ALL = ['stars', 'envelope', 'garden', 'memories', 'letter', 'reasons', 'cake', 'gift', 'finale'];
 const nameText = () => g('name', 'Tania');
 const skyName = () => g('stars.name', nameText());   // তারার আকাশে আলাদা নাম (খালি থাকলে মূল নাম)
+const envName = () => g('envelope.name', nameText()); // খামের কার্ডের নাম
 const SCRIPT = '"Great Vibes", Galada';               // ইংরেজি টানা হাতের লেখা, বাংলা হলে গালাদা
 
 const T = {
   gate: () => `
     <div class="glass gate">
       <div class="g-heart">${HEART(66, '#ff9a52')}</div>
-      <p class="kicker">শুধু তোমার জন্য</p>
-      <h1 class="g-name">${esc(g('nick', g('name')))}</h1>
+      <p class="kicker">${esc(g('gate.kicker', 'শুধু তোমার জন্য'))}</p>
+      <h1 class="g-name">${esc(g('gate.name', g('nick', g('name'))))}</h1>
       <p class="g-q">${nl(g('gate.question'))}</p>
       <form class="g-form" autocomplete="off">
         <input class="g-in" aria-label="উত্তর">
@@ -220,10 +221,10 @@ const T = {
   envelope: () => `
     <button class="env" type="button" aria-label="খাম">
       <span class="env-back"></span>
-      <span class="env-card"><span class="script">Happy Birthday</span><span class="nm">${esc(nameText())}</span><span class="tiny">${HEART(12, '#f26b21')}${HEART(16, '#c81d3a')}${HEART(12, '#f26b21')}</span></span>
+      <span class="env-card"><span class="script">${esc(g('envelope.title', 'Happy Birthday'))}</span><span class="nm">${esc(envName())}</span><span class="tiny">${HEART(12, '#f26b21')}${HEART(16, '#c81d3a')}${HEART(12, '#f26b21')}</span></span>
       <span class="env-front"></span>
       <span class="env-flap"></span>
-      <span class="seal">${esc((nameText()[0] || 'T').toUpperCase())}</span>
+      <span class="seal">${esc(g('envelope.seal', ([...envName()][0] || 'T').toUpperCase()))}</span>
     </button>
     <p class="env-line">${nl(g('envelope.line'))}</p>`,
   garden: () => {
@@ -252,7 +253,7 @@ const T = {
       <p class="l-greet">${esc(g('letter.greeting', 'প্রিয়,'))}</p>
       <div class="l-body"><span class="txt"></span><span class="caret"></span></div>
       <p class="l-close">${esc(g('letter.closing'))}</p>
-      <p class="l-sign">${esc(g('from'))}</p>
+      <p class="l-sign">${esc(g('letter.sign', g('from')))}</p>
     </div>`,
   reasons: () => {
     const r = shownItems(g('reasons', [])), HC = ['#ff8a3d', '#ffb27a', '#ffd9b8', '#f26b21', '#ff6f4f', '#fff1e2', '#e8560f', '#ffc078'];
@@ -271,7 +272,7 @@ const T = {
         <div class="plate"></div>
         <svg class="smoke-heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
       </div>
-      <div class="wish" hidden><div class="script">Happy Birthday</div><p class="sub" style="margin:8px auto 0">${nl(g('cake.wish'))}</p></div>`;
+      <div class="wish" hidden><div class="script">${esc(g('cake.title', 'Happy Birthday'))}</div><p class="sub" style="margin:8px auto 0">${nl(g('cake.wish'))}</p></div>`;
   },
   gift: () => {
     const cps = shownItems(g('gift.coupons', []));
@@ -286,7 +287,7 @@ const T = {
     <canvas class="fw-cv" aria-label="আতশবাজি"></canvas>
     <div class="fin" hidden>
       <p class="fin-line">${nl(g('finale.line'))}</p>
-      <p class="final-sign">ভালোবাসি, অনেক।<br>${esc(g('from'))}</p>
+      <p class="final-sign">${esc(g('finale.love', 'ভালোবাসি, অনেক।'))}<br>${esc(g('finale.sign', g('from')))}</p>
       <p class="fin-secret"></p>
       <button class="again" type="button" aria-label="আবার শুরু থেকে"><svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 5V1L7 6l5 5V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z"/></svg></button>
     </div>`
@@ -485,7 +486,12 @@ const B = {
     const fin = $('.fin', el);
     cleanups.push(Magic.Fireworks($('.fw-cv', el), {
       textDelay: 2.6,
-      lines: (W, H) => { const f1 = Math.min(W * .17, 100), f2 = Math.min(W * .24, 150), y = H * (W < 600 ? .19 : .22); return [{ text: 'Happy Birthday', size: f1, family: '"Great Vibes"', x: W / 2, y }, { text: nameText(), size: f2, family: SCRIPT, x: W / 2, y: y + Math.min(f1, W * .13) * 1.75 }]; },
+      lines: (W, H) => {
+        const f1 = Math.min(W * .17, 100), f2 = Math.min(W * .24, 150), y = H * (W < 600 ? .19 : .22), nm = g('finale.name', nameText());
+        const L = [{ text: g('finale.title', 'Happy Birthday'), size: f1, family: SCRIPT, x: W / 2, y }];
+        if (nm) L.push({ text: nm, size: f2, family: SCRIPT, x: W / 2, y: y + Math.min(f1, W * .13) * 1.75 });
+        return L;
+      },
       onBoom: () => { AU.boom(); },
       onText: () => { vib([30, 50, 30]); later(() => { fin.hidden = false; requestAnimationFrame(() => fin.classList.add('show')); }, 2600); }
     }));
@@ -580,7 +586,7 @@ if (PREVIEW) {
     if (box && box.open) return start(box.content);
     if (box && box.locks) {
       BOX = box; const m = box.meta || {};
-      return start({ nick: m.nick, name: m.nick, gate: { question: m.question, hint: m.hint, answers: ['🔒'] } });
+      return start({ nick: m.nick, name: m.nick, gate: { question: m.question, hint: m.hint, answers: ['🔒'], name: m.gname, kicker: m.kicker } });
     }
     const c = await fetch('content.json', { cache: 'no-store' }).then(r => r.json()).catch(() => ({}));
     start(c);

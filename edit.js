@@ -21,28 +21,30 @@ const setP = (p, v) => { const ks = p.split('.'); let o = C; ks.slice(0, -1).for
 /* ---------- কোন অংশে কী ---------- */
 const SECTIONS = [
   { title: 'মূল তথ্য', scene: 'envelope', fields: [
-    { p: 'name', label: 'তাঁর নাম: খামের কার্ডে আর শেষের আতশবাজিতে (টানা হাতের লেখায়)' },
-    { p: 'nick', label: 'যে নামে ডাকেন (প্রথম পাতায় বড় করে)' },
-    { p: 'from', label: 'আপনার নাম (চিঠি আর শেষ পাতার নিচে)' },
+    { p: 'name', label: 'তাঁর মূল নাম (যেসব জায়গায় আলাদা সম্বোধন দেননি, সেখানে এটা বসবে)' },
+    { p: 'nick', label: 'মূল ডাকনাম (প্রথম পাতায় আলাদা নাম না দিলে এটা বসবে)' },
+    { p: 'from', label: 'আপনার মূল নাম (চিঠি আর শেষ পাতায় আলাদা নাম না দিলে এটা বসবে)' },
     { p: 'since', label: 'একসঙ্গে পথচলা শুরুর তারিখ (বাগানে দিনের হিসাব)', type: 'date' },
     { p: 'sinceLabel', label: 'দিনের হিসাবের উপরের লেখা' },
     { p: 'birthday', label: 'জন্মদিন কখন শুরু', type: 'datetime-local' },
     { p: 'lock', label: 'এই সময়ের আগে খোলা যাবে না, শুধু উল্টো-গণনার ঘড়ি দেখাবে', type: 'check' }
   ] },
   { title: 'গোপন প্রশ্ন', scene: 'gate', hide: 'gate', note: 'লিংক খুললে প্রথমে এই প্রশ্ন আসবে। ঠিক উত্তর দিলে তবেই ভেতরে ঢোকা যাবে। ছোট-বড় হাতের অক্ষর আর ফাঁকা জায়গা ধরা হয় না। প্রশ্ন বা উত্তর খালি রাখলে কোনো তালা থাকবে না।', fields: [
+    { p: 'gate.kicker', label: 'সম্বোধন: নামের উপরের ছোট লেখা', ph: 'শুধু তোমার জন্য' },
+    { p: 'gate.name', label: 'সম্বোধন: প্রথম পাতায় বড় করে লেখা নাম', ph: () => C.nick || C.name || '' },
     { p: 'gate.question', label: 'প্রশ্ন' },
     { p: 'gate.answers', label: 'সঠিক উত্তর (কয়েকভাবে লেখা চললে কমা দিয়ে আলাদা করুন)', type: 'csv' },
     { p: 'gate.hint', label: 'দুবার ভুল হলে যে ইঙ্গিত দেখাবে' }
   ] },
   { title: 'তারার আকাশ', scene: 'stars', hide: 'stars', note: 'রাতের আকাশে হাজারো তারার কণা মিলে এই নামটা লিখবে। আঙুল বোলালে কণাগুলো সরে যায়, আবার ফিরে আসে। মাঝে মাঝে তারা খসে, ধরতে পারলে আলো ঝরে।', fields: [{ p: 'stars.name', label: 'আকাশে তারায় লেখা নাম (খামের নাম থেকে আলাদা; খালি রাখলে খামের নামটাই আসবে; ছোট নাম সবচেয়ে সুন্দর দেখায়)' }, { p: 'stars.line', label: 'নামের নিচের লেখা', type: 'area' }] },
-  { title: 'খাম', scene: 'envelope', hide: 'envelope', fields: [{ p: 'envelope.line', label: 'খাম খোলার পর নিচের লেখা', type: 'area' }] },
+  { title: 'খাম', scene: 'envelope', hide: 'envelope', fields: [{ p: 'envelope.title', label: 'সম্বোধন: খামের কার্ডে উপরের বড় লেখা', ph: 'Happy Birthday' }, { p: 'envelope.name', label: 'সম্বোধন: খামের কার্ডে নাম', ph: () => C.name || '' }, { p: 'envelope.seal', label: 'মোমের সিলের অক্ষর (এক-দুই অক্ষর; খালি রাখলে কার্ডের নামের প্রথম অক্ষর)', ph: () => ([...(C.envelope && C.envelope.name || C.name || 'T')][0] || '').toUpperCase() }, { p: 'envelope.line', label: 'খাম খোলার পর নিচের লেখা', type: 'area' }] },
   { title: 'ফুলের বাগান', scene: 'garden', hide: 'garden', fields: [{ p: 'garden.title', label: 'শিরোনাম' }, { p: 'garden.sub', label: 'নিচের লেখা', type: 'area' }, { p: 'hideCounter', label: '"একসঙ্গে কেটে গেল … দিন" হিসাবটা লুকাও', type: 'check' }] },
   { title: 'স্মৃতির ছবি', scene: 'memories', hide: 'memories', note: 'ছবিগুলো আলোর মালায় ক্লিপে ঝুলবে, হাওয়ায় দুলবে। পাশাপাশি সরিয়ে দেখা যাবে, ছুঁলে বড় হয়ে খুলবে।', fields: [{ p: 'memoriesTitle', label: 'শিরোনাম' }], list: 'memories' },
-  { title: 'চিঠি', scene: 'letter', hide: 'letter', fields: [{ p: 'letter.greeting', label: 'সম্বোধন' }, { p: 'letter.body', label: 'চিঠি (নতুন লাইনে গেলে চিঠিতেও নতুন লাইন হবে)', type: 'area', rows: 12 }, { p: 'letter.closing', label: 'শেষের লাইন (তার নিচে আপনার নাম বসবে)' }] },
+  { title: 'চিঠি', scene: 'letter', hide: 'letter', fields: [{ p: 'letter.greeting', label: 'সম্বোধন' }, { p: 'letter.body', label: 'চিঠি (নতুন লাইনে গেলে চিঠিতেও নতুন লাইন হবে)', type: 'area', rows: 12 }, { p: 'letter.closing', label: 'শেষের লাইন' }, { p: 'letter.sign', label: 'সম্বোধন: চিঠির নিচে আপনার নাম', ph: () => C.from || '' }] },
   { title: 'ভালোবাসার বয়াম', scene: 'reasons', hide: 'reasons', list: 'reasons', note: 'কাচের বয়ামে ভাঁজ করা কাগজের হৃদয় থাকবে, প্রতিটার ভেতরে একটা কারণ। বয়াম ছুঁলে একটা হৃদয় উড়ে এসে খুলে যায়। ১৬টা পর্যন্ত দেওয়া যায়।' },
-  { title: 'কেক', scene: 'cake', hide: 'cake', fields: [{ p: 'cake.candles', label: 'মোমবাতির সংখ্যা (১ থেকে ৯)', type: 'number' }, { p: 'cake.wish', label: 'মোমবাতি নেভানোর পর লেখা', type: 'area' }] },
+  { title: 'কেক', scene: 'cake', hide: 'cake', fields: [{ p: 'cake.candles', label: 'মোমবাতির সংখ্যা (১ থেকে ৯)', type: 'number' }, { p: 'cake.title', label: 'সম্বোধন: মোমবাতি নেভানোর পর বড় করে লেখা', ph: 'Happy Birthday' }, { p: 'cake.wish', label: 'তার নিচের লেখা', type: 'area' }] },
   { title: 'উপহার', scene: 'gift', hide: 'gift', note: 'বাক্স খুললে সোনালি পরতের কার্ড আসবে, আঙুলে ঘষে তুললে নিচের লেখা বেরোবে। কুপন ছুঁলে তাতে "গৃহীত" সিল পড়ে।', fields: [{ p: 'gift.title', label: 'শিরোনাম' }, { p: 'gift.message', label: 'ঘষে তোলার পর যে লেখা বেরোবে (উপহার কোথায় আছে)', type: 'area', rows: 4 }], list: 'gift.coupons' },
-  { title: 'আতশবাজি (শেষ দৃশ্য)', scene: 'finale', hide: 'finale', note: 'আকাশে আতশবাজি ফাটবে, ছুঁলেও ফাটবে। তারপর আতশবাজির কণা মিলে লেখা হবে "Happy Birthday" আর তাঁর নাম। শেষে আপনার নাম আর আবার দেখার বোতাম।', fields: [{ p: 'finale.line', label: 'শেষের লেখা', type: 'area' }] },
+  { title: 'আতশবাজি (শেষ দৃশ্য)', scene: 'finale', hide: 'finale', note: 'আকাশে আতশবাজি ফাটবে, ছুঁলেও ফাটবে। তারপর আতশবাজির কণা মিলে লেখা হবে "Happy Birthday" আর তাঁর নাম। শেষে আপনার নাম আর আবার দেখার বোতাম।', fields: [{ p: 'finale.title', label: 'সম্বোধন: আতশবাজিতে বড় লেখা', ph: 'Happy Birthday' }, { p: 'finale.name', label: 'সম্বোধন: আতশবাজিতে নাম', ph: () => C.name || '' }, { p: 'finale.line', label: 'শেষের লেখা', type: 'area' }, { p: 'finale.love', label: 'আপনার নামের উপরের লাইন', ph: 'ভালোবাসি, অনেক।' }, { p: 'finale.sign', label: 'সম্বোধন: শেষে আপনার নাম', ph: () => C.from || '' }] },
   { title: 'লুকানো হৃদয়', scene: 'stars', list: 'secrets', note: 'তারার আকাশ, বাগান, ছবি, চিঠি, কেক আর উপহার: এই ছয় দৃশ্যে এই ক্রমে একটা করে ছোট হৃদয় লুকানো থাকবে। ছুঁলে আপনার একটা গোপন কথা বেরোবে, আর উপরের কোণে ছোট হৃদয়গুলো একটা একটা করে ভরে উঠবে।', fields: [{ p: 'secretsAll', label: 'সবগুলো খুঁজে পেলে শেষ দৃশ্যে যে কথা দেখাবে', type: 'area' }] },
   { title: 'গান', scene: 'envelope', music: true }
 ];
@@ -64,7 +66,8 @@ function fieldHTML(f) {
   if (f.type === 'area') return `<div class="f"><label>${esc(f.label)}</label><textarea data-p="${f.p}" rows="${f.rows || 3}">${esc(v)}</textarea></div>`;
   if (f.type === 'csv') return `<div class="f"><label>${esc(f.label)}</label><input type="text" data-p="${f.p}" data-t="csv" value="${esc((v || []).join(', '))}"></div>`;
   if (f.type === 'number') return `<div class="f"><label>${esc(f.label)}</label><input type="number" min="1" max="9" data-p="${f.p}" data-t="num" value="${esc(v)}"></div>`;
-  return `<div class="f"><label>${esc(f.label)}</label><input type="${f.type || 'text'}" data-p="${f.p}" value="${esc(v)}"></div>`;
+  const ph = f.ph ? `placeholder="${esc(typeof f.ph === 'function' ? f.ph() : f.ph)}"` : '';
+  return `<div class="f"><label>${esc(f.label)}</label><input type="${f.type || 'text'}" data-p="${f.p}" value="${esc(v)}" ${ph}></div>`;
 }
 function listHTML(path) {
   const arr = getP(path) || [];
@@ -208,7 +211,7 @@ async function publish() {
   if (!gateOn && !confirm('গোপন প্রশ্ন বন্ধ বা খালি। এভাবে লাইভ করলে লিংক পাওয়া যে কেউ সব ছবি আর লেখা দেখতে পারবে। তবুও লাইভ করবেন?')) return;
   const btn = $('#pub'); btn.disabled = true; btn.textContent = 'লাইভ হচ্ছে…';
   try {
-    const box = gateOn ? await Crypt.seal(C, answersOf(), { nick: C.nick || C.name || '', question: C.gate.question, hint: C.gate.hint || '' }) : { v: 1, open: true, content: C };
+    const box = gateOn ? await Crypt.seal(C, answersOf(), { nick: C.nick || C.name || '', gname: C.gate.name || '', kicker: C.gate.kicker || '', question: C.gate.question, hint: C.gate.hint || '' }) : { v: 1, open: true, content: C };
     let sha;
     const r0 = await fetch(`${API}?ref=${GH.branch}&t=${Date.now()}`, { headers: ghH(t), cache: 'no-store' });
     if (r0.status === 401 || r0.status === 403) { try { localStorage.removeItem('hb-gh-token'); } catch (e) { } toast('চাবিটা কাজ করছে না, নতুন একটা দিন'); openTok(); return; }
